@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>ManuService - Ordens de Serviço</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        body {
+            background-color: #f1f4f8;
+            color: #222;
+            min-height: 100vh;
+        }
+
+        /* CABEÇALHO */
+        header {
+            background-color: #174a7e;
+            color: white;
+            padding: 25px 40px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        header h1 {
+            font-size: 28px;
+            margin-bottom: 5px;
+        }
+
+        header p {
+            color: #d9e8f5;
+        }
+
+        /* CONTEÚDO PRINCIPAL */
+        main {
+            width: 90%;
+            max-width: 1100px;
+            margin: 35px auto;
+        }
+
+        /* FORMULÁRIO */
+        .formulario {
+            background-color: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 3px 12px rgba(0, 0, 0, 0.08);
+            margin-bottom: 35px;
+        }
+
+        .formulario h2 {
+            color: #174a7e;
+            margin-bottom: 25px;
+        }
+
+        .campo {
+            margin-bottom: 18px;
+        }
+
+        .campo label {
+            display: block;
+            margin-bottom: 7px;
+            font-weight: bold;
+            color: #444;
+        }
+
+        .campo input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccd3db;
+            border-radius: 7px;
+            font-size: 15px;
+        }
+
+        .campo input:focus {
+            outline: none;
+            border-color: #174a7e;
+        }
+
+        .botao {
+            background-color: #174a7e;
+            color: white;
+            border: none;
+            padding: 13px 25px;
+            border-radius: 7px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .botao:hover {
+            background-color: #123b64;
+        }
+
+        /* ÁREA DAS ORDENS */
+        .titulo-ordens {
+            color: #174a7e;
+            margin-bottom: 20px;
+        }
+
+        #listaOrdens {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        /* CARD */
+        .card {
+            background-color: white;
+            border-radius: 12px;
+            padding: 22px;
+            box-shadow: 0 3px 12px rgba(0, 0, 0, 0.08);
+            border-left: 5px solid #174a7e;
+        }
+
+        .card h3 {
+            color: #174a7e;
+            margin-bottom: 18px;
+        }
+
+        .card p {
+            margin-bottom: 10px;
+            color: #555;
+        }
+
+        .card strong {
+            color: #222;
+        }
+
+        .preco {
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid #ddd;
+        }
+
+        .valor-bruto {
+            color: #555;
+        }
+
+        .desconto {
+            color: #2e7d32;
+        }
+
+        .valor-final {
+            color: #174a7e;
+            font-size: 20px;
+            font-weight: bold;
+            margin-top: 7px;
+        }
+
+        .aviso {
+            color: #777;
+            text-align: center;
+            padding: 20px;
+        }
+
+        /* RODAPÉ */
+        footer {
+            margin-top: 50px;
+            background-color: #16324f;
+            color: #dbe5ef;
+            text-align: center;
+            padding: 18px;
+            font-size: 13px;
+        }
+
+        /* RESPONSIVIDADE */
+        @media (max-width: 600px) {
+
+            header {
+                padding: 20px;
+            }
+
+            main {
+                width: 92%;
+            }
+
+            .formulario {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- CABEÇALHO -->
+    <header>
+        <h1>🔧 ManuService</h1>
+        <p>Sistema de Ordens de Serviço</p>
+    </header>
+
+
+    <main>
+
+        <!-- FORMULÁRIO -->
+        <section class="formulario">
+
+            <h2>Nova Ordem de Serviço</h2>
+
+            <form id="formOS">
+
+                <div class="campo">
+                    <label for="cliente">Nome do Cliente</label>
+                    <input
+                        type="text"
+                        id="cliente"
+                        placeholder="Digite o nome do cliente"
+                        required
+                    >
+                </div>
+
+                <div class="campo">
+                    <label for="equipamento">Equipamento</label>
+                    <input
+                        type="text"
+                        id="equipamento"
+                        placeholder="Ex: Máquina Industrial"
+                        required
+                    >
+                </div>
+
+                <div class="campo">
+                    <label for="valor">Valor Bruto do Serviço (R$)</label>
+                    <input
+                        type="number"
+                        id="valor"
+                        placeholder="Digite o valor"
+                        min="0"
+                        step="0.01"
+                        required
+                    >
+                </div>
+
+                <button class="botao" type="submit">
+                    Cadastrar Ordem
+                </button>
+
+            </form>
+
+        </section>
+
+
+        <!-- ORDENS CADASTRADAS -->
+        <section>
+
+            <h2 class="titulo-ordens">
+                Ordens de Serviço Cadastradas
+            </h2>
+
+            <div id="listaOrdens">
+
+                <p class="aviso">
+                    Nenhuma ordem de serviço cadastrada.
+                </p>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <footer>
+        ManuService © 2026 - Sistema de Gestão de Ordens de Serviço
+    </footer>
+
+
+    <script>
+
+        // Classe que representa uma Ordem de Serviço
+        class OrdemServico {
+
+            constructor(cliente, equipamento, valorBruto) {
+
+                this.cliente = cliente;
+                this.equipamento = equipamento;
+                this.valorBruto = valorBruto;
+
+            }
+
+            // Calcula o desconto de 10% para pagamento à vista
+            calcularDesconto() {
+
+                return this.valorBruto * 0.10;
+
+            }
+
+            // Calcula o valor final com o desconto
+            calcularValorFinal() {
+
+                return this.valorBruto - this.calcularDesconto();
+
+            }
+
+        }
+
+
+        // Array para armazenar as ordens de serviço
+        const ordens = [];
+
+
+        // Formulário
+        const formulario = document.getElementById("formOS");
+
+        formulario.addEventListener("submit", function(event) {
+
+            // Impede o formulário de recarregar a página
+            event.preventDefault();
+
+
+            // Pegando os valores digitados
+            const cliente = document.getElementById("cliente").value;
+
+            const equipamento = document.getElementById("equipamento").value;
+
+            const valor = Number(
+                document.getElementById("valor").value
+            );
+
+
+            // Criando uma nova Ordem de Serviço
+            const novaOrdem = new OrdemServico(
+                cliente,
+                equipamento,
+                valor
+            );
+
+
+            // Adicionando a ordem ao array
+            ordens.push(novaOrdem);
+
+
+            // Atualizando os cards na tela
+            mostrarOrdens();
+
+
+            // Limpando o formulário
+            formulario.reset();
+
+        });
+
+
+        // Função responsável por mostrar as ordens
+        function mostrarOrdens() {
+
+            const lista = document.getElementById("listaOrdens");
+
+            lista.innerHTML = "";
+
+
+            // Percorre todas as ordens cadastradas
+            ordens.forEach(function(ordem, index) {
+
+                const card = document.createElement("div");
+
+                card.classList.add("card");
+
+
+                card.innerHTML = `
+
+                    <h3>Ordem de Serviço #${index + 1}</h3>
+
+                    <p>
+                        <strong>Cliente:</strong>
+                        ${ordem.cliente}
+                    </p>
+
+                    <p>
+                        <strong>Equipamento:</strong>
+                        ${ordem.equipamento}
+                    </p>
+
+                    <div class="preco">
+
+                        <p class="valor-bruto">
+                            Valor bruto:
+                            R$ ${ordem.valorBruto.toFixed(2)}
+                        </p>
+
+                        <p class="desconto">
+                            Desconto à vista (10%):
+                            R$ ${ordem.calcularDesconto().toFixed(2)}
+                        </p>
+
+                        <p class="valor-final">
+                            Valor final:
+                            R$ ${ordem.calcularValorFinal().toFixed(2)}
+                        </p>
+
+                    </div>
+                `;
+
+
+                lista.appendChild(card);
+
+            });
+
+        }
+
+    </script>
+
+</body>
+
+</html>
